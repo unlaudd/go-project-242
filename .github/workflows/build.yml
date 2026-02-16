@@ -26,8 +26,5 @@ jobs:
     - name: Build application
       run: make build
 
-    - name: Show help output (debug)
-      run: ./bin/hexlet-path-size --help
-
     - name: Run tests
       run: make test
