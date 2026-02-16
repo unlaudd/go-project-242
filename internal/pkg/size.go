@@ -118,5 +118,5 @@ func FormatSize(size int64, human bool) string {
 	}
 
 	units := []string{"KB", "MB", "GB", "TB", "PB", "EB"}
-	return fmt.Sprintf("%.1f%s", float64(size)/float64(div), units[exp-1])
+	return fmt.Sprintf("%.1f%s", float64(size)/float64(div), units[exp])
 }
