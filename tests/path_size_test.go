@@ -1,11 +1,10 @@
 package tests
 
 import (
+	"code"
 	"os"
 	"path/filepath"
 	"testing"
-
-	"code/pkg"
 
 	"github.com/stretchr/testify/require"
 )
@@ -49,7 +48,7 @@ func TestGetPathSize_File(t *testing.T) {
 	tmpDir := setupTestData(t)
 	path := filepath.Join(tmpDir, "file1.txt")
 
-	result, err := pkg.GetPathSize(path, false, false, false)
+	result, err := code.GetPathSize(path, false, false, false)
 	require.NoError(t, err)
 	require.Contains(t, result, "10")
 }
@@ -58,7 +57,7 @@ func TestGetPathSize_Directory(t *testing.T) {
 	tmpDir := setupTestData(t)
 	path := filepath.Join(tmpDir, "testdir")
 
-	result, err := pkg.GetPathSize(path, false, false, false)
+	result, err := code.GetPathSize(path, false, false, false)
 	require.NoError(t, err)
 	require.Contains(t, result, "5")
 }
@@ -67,7 +66,7 @@ func TestGetPathSize_Recursive(t *testing.T) {
 	tmpDir := setupTestData(t)
 	path := filepath.Join(tmpDir, "testdir")
 
-	result, err := pkg.GetPathSize(path, true, false, false)
+	result, err := code.GetPathSize(path, true, false, false)
 	require.NoError(t, err)
 	require.Contains(t, result, "35") // nested.txt (5) + deep.txt (30)
 }
@@ -77,13 +76,13 @@ func TestGetPathSize_Hidden(t *testing.T) {
 
 	// Без флага --all (скрытые файлы игнорируются)
 	// file1.txt (10) + file2.txt (20) = 30 байт
-	result, err := pkg.GetPathSize(tmpDir, false, false, false)
+	result, err := code.GetPathSize(tmpDir, false, false, false)
 	require.NoError(t, err)
 	require.Contains(t, result, "30")
 
 	// С флагом --all (скрытые файлы учитываются)
 	// file1.txt (10) + file2.txt (20) + .hidden (30) = 60 байт
-	result, err = pkg.GetPathSize(tmpDir, false, false, true)
+	result, err = code.GetPathSize(tmpDir, false, false, true)
 	require.NoError(t, err)
 	require.Contains(t, result, "60")
 }
@@ -92,7 +91,7 @@ func TestGetPathSize_HumanReadable(t *testing.T) {
 	tmpDir := setupTestData(t)
 	path := filepath.Join(tmpDir, "file2.txt")
 
-	result, err := pkg.GetPathSize(path, false, true, false)
+	result, err := code.GetPathSize(path, false, true, false)
 	require.NoError(t, err)
 	require.Contains(t, result, "20B")
 }
@@ -101,7 +100,7 @@ func TestGetPathSize_NotExist(t *testing.T) {
 	tmpDir := setupTestData(t)
 	path := filepath.Join(tmpDir, "nonexistent.txt")
 
-	result, err := pkg.GetPathSize(path, false, false, false)
+	result, err := code.GetPathSize(path, false, false, false)
 	require.Error(t, err)
 	require.Empty(t, result)
 }

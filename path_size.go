@@ -1,4 +1,4 @@
-package pkg
+package code
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-// GetPathSize возвращает размер файла или директории в формате "<размер> <путь>"
+// GetPathSize возвращает размер файла или директории в формате "<размер>\t<путь>"
 func GetPathSize(path string, recursive, human, all bool) (string, error) {
 	info, err := os.Lstat(path)
 	if err != nil {
@@ -17,10 +17,8 @@ func GetPathSize(path string, recursive, human, all bool) (string, error) {
 	var size int64
 
 	if !info.IsDir() {
-		// Это файл
 		size = info.Size()
 	} else {
-		// Это директория
 		if recursive {
 			size = getDirSizeRecursive(path, all)
 		} else {
@@ -28,13 +26,11 @@ func GetPathSize(path string, recursive, human, all bool) (string, error) {
 		}
 	}
 
-	// Форматируем размер
 	sizeStr := FormatSize(size, human)
 
 	return fmt.Sprintf("%s\t%s", sizeStr, path), nil
 }
 
-// getDirSizeFirstLevel считает размер файлов только первого уровня
 func getDirSizeFirstLevel(path string, all bool) int64 {
 	entries, err := os.ReadDir(path)
 	if err != nil {
@@ -43,7 +39,6 @@ func getDirSizeFirstLevel(path string, all bool) int64 {
 
 	var size int64
 	for _, entry := range entries {
-		// Пропускаем скрытые файлы, если флаг --all не установлен
 		if !all && isHidden(entry.Name()) {
 			continue
 		}
@@ -60,24 +55,21 @@ func getDirSizeFirstLevel(path string, all bool) int64 {
 	return size
 }
 
-// getDirSizeRecursive рекурсивно считает размер всех файлов в директории
 func getDirSizeRecursive(path string, all bool) int64 {
 	var size int64
 
 	err := filepath.WalkDir(path, func(currentPath string, d os.DirEntry, err error) error {
 		if err != nil {
-			return nil // Продолжаем обход даже при ошибках
+			return nil
 		}
 
-		// Пропускаем скрытые файлы/директории, если флаг --all не установлен
 		if !all && isHidden(d.Name()) {
 			if d.IsDir() {
-				return filepath.SkipDir // Пропускаем всю скрытую директорию
+				return filepath.SkipDir
 			}
-			return nil // Пропускаем скрытый файл
+			return nil
 		}
 
-		// Считаем только файлы (не директории)
 		if !d.IsDir() {
 			info, err := d.Info()
 			if err == nil {
@@ -95,12 +87,10 @@ func getDirSizeRecursive(path string, all bool) int64 {
 	return size
 }
 
-// isHidden проверяет, является ли файл или директория скрытыми
 func isHidden(name string) bool {
 	return strings.HasPrefix(name, ".")
 }
 
-// FormatSize форматирует размер в человекочитаемый вид
 func FormatSize(size int64, human bool) string {
 	if !human {
 		return fmt.Sprintf("%dB", size)

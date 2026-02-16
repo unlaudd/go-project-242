@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"code/pkg"
+	"code"
 
 	"github.com/urfave/cli/v3"
 )
@@ -41,7 +41,7 @@ func main() {
 			recursive := c.Bool("recursive")
 			human := c.Bool("human")
 			all := c.Bool("all")
-			result, err := pkg.GetPathSize(path, recursive, human, all)
+			result, err := code.GetPathSize(path, recursive, human, all)
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 				os.Exit(1)
