@@ -3,7 +3,7 @@ module tests
 go 1.25
 
 require (
-	code v0.0.0-00010101000000-000000000000
+	code v0.0.0
 	github.com/stretchr/testify v1.11.1
 )
 
