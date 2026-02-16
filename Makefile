@@ -12,13 +12,10 @@ run: build
 	./$(BIN_PATH)
 
 test: build
-	@OUTPUT=$$(./$(BIN_PATH) --help | head -n 1); \
-	if echo "$$OUTPUT" | grep -q "hexlet-path-size"; then \
-		echo "✅ Test passed: help output is correct"; \
-	else \
-		echo "❌ Test failed: unexpected output"; \
-		exit 1; \
-	fi
+	@./$(BIN_PATH) --help | grep -q "hexlet-path-size" && \
+	./$(BIN_PATH) --help | grep -q "print size of a file or directory" && \
+	echo "✅ Test passed: help output is correct" || \
+	(echo "❌ Test failed: unexpected output" && exit 1)
 
 clean:
 	rm -rf bin/
