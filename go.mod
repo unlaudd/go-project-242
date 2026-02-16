@@ -1,5 +1,5 @@
 module hexlet-path-size
 
-go 1.25.0
+go 1.25.5
 
 require github.com/urfave/cli/v3 v3.6.2
