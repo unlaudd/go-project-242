@@ -3,6 +3,7 @@ package pkg
 import (
 	"fmt"
 	"os"
+	"strings"
 )
 
 // GetPathSize возвращает размер файла или директории в формате "<размер> <путь>"
@@ -25,6 +26,11 @@ func GetPathSize(path string, recursive, human, all bool) (string, error) {
 		}
 
 		for _, entry := range entries {
+			// Пропускаем скрытые файлы, если флаг --all не установлен
+			if !all && isHidden(entry.Name()) {
+				continue
+			}
+
 			entryInfo, err := entry.Info()
 			if err != nil {
 				continue
@@ -39,6 +45,11 @@ func GetPathSize(path string, recursive, human, all bool) (string, error) {
 	sizeStr := FormatSize(size, human)
 
 	return fmt.Sprintf("%s\t%s", sizeStr, path), nil
+}
+
+// isHidden проверяет, является ли файл или директория скрытыми
+func isHidden(name string) bool {
+	return strings.HasPrefix(name, ".")
 }
 
 // FormatSize форматирует размер в человекочитаемый вид
