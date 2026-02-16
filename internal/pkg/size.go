@@ -36,15 +36,15 @@ func GetPathSize(path string, recursive, human, all bool) (string, error) {
 	}
 
 	// Форматируем размер
-	sizeStr := formatSize(size, human)
+	sizeStr := FormatSize(size, human)
 
 	return fmt.Sprintf("%s\t%s", sizeStr, path), nil
 }
 
-// formatSize форматирует размер в человекочитаемый вид
-func formatSize(size int64, human bool) string {
+// FormatSize форматирует размер в человекочитаемый вид
+func FormatSize(size int64, human bool) string {
 	if !human {
-		return fmt.Sprintf("%d", size)
+		return fmt.Sprintf("%dB", size)
 	}
 
 	const unit = 1024

@@ -18,7 +18,7 @@ func main() {
 			&cli.BoolFlag{
 				Name:    "human",
 				Aliases: []string{"H"},
-				Usage:   "print human-readable sizes",
+				Usage:   "human-readable sizes (auto-select unit)",
 			},
 		},
 		Action: func(ctx context.Context, c *cli.Command) error {
