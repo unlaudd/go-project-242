@@ -11,11 +11,8 @@ build: deps
 run: build
 	./$(BIN_PATH)
 
-test: build
-	@./$(BIN_PATH) --help | grep -q "hexlet-path-size" && \
-	./$(BIN_PATH) --help | grep -q "print size of a file or directory" && \
-	echo "✅ Test passed: help output is correct" || \
-	(echo "❌ Test failed: unexpected output" && exit 1)
+test:
+	go test -v ./...
 
 clean:
 	rm -rf bin/
