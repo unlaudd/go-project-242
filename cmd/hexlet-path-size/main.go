@@ -41,13 +41,15 @@ func main() {
 			recursive := c.Bool("recursive")
 			human := c.Bool("human")
 			all := c.Bool("all")
-			result, err := code.GetPathSize(path, recursive, human, all)
+
+			size, err := code.GetPathSize(path, recursive, human, all)
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 				os.Exit(1)
 			}
 
-			fmt.Println(result)
+			// Добавляем путь при выводе
+			fmt.Printf("%s\t%s\n", size, path)
 			return nil
 		},
 	}

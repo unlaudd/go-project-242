@@ -1,10 +1,11 @@
 package tests
 
 import (
-	"code"
 	"os"
 	"path/filepath"
 	"testing"
+
+	"code"
 
 	"github.com/stretchr/testify/require"
 )
@@ -50,7 +51,7 @@ func TestGetPathSize_File(t *testing.T) {
 
 	result, err := code.GetPathSize(path, false, false, false)
 	require.NoError(t, err)
-	require.Contains(t, result, "10")
+	require.Equal(t, "10B", result)
 }
 
 func TestGetPathSize_Directory(t *testing.T) {
@@ -59,7 +60,7 @@ func TestGetPathSize_Directory(t *testing.T) {
 
 	result, err := code.GetPathSize(path, false, false, false)
 	require.NoError(t, err)
-	require.Contains(t, result, "5")
+	require.Equal(t, "5B", result)
 }
 
 func TestGetPathSize_Recursive(t *testing.T) {
@@ -68,7 +69,7 @@ func TestGetPathSize_Recursive(t *testing.T) {
 
 	result, err := code.GetPathSize(path, true, false, false)
 	require.NoError(t, err)
-	require.Contains(t, result, "35") // nested.txt (5) + deep.txt (30)
+	require.Equal(t, "35B", result) // nested.txt (5) + deep.txt (30)
 }
 
 func TestGetPathSize_Hidden(t *testing.T) {
@@ -78,13 +79,13 @@ func TestGetPathSize_Hidden(t *testing.T) {
 	// file1.txt (10) + file2.txt (20) = 30 байт
 	result, err := code.GetPathSize(tmpDir, false, false, false)
 	require.NoError(t, err)
-	require.Contains(t, result, "30")
+	require.Equal(t, "30B", result)
 
 	// С флагом --all (скрытые файлы учитываются)
 	// file1.txt (10) + file2.txt (20) + .hidden (30) = 60 байт
 	result, err = code.GetPathSize(tmpDir, false, false, true)
 	require.NoError(t, err)
-	require.Contains(t, result, "60")
+	require.Equal(t, "60B", result)
 }
 
 func TestGetPathSize_HumanReadable(t *testing.T) {
@@ -93,7 +94,7 @@ func TestGetPathSize_HumanReadable(t *testing.T) {
 
 	result, err := code.GetPathSize(path, false, true, false)
 	require.NoError(t, err)
-	require.Contains(t, result, "20B")
+	require.Equal(t, "20B", result)
 }
 
 func TestGetPathSize_NotExist(t *testing.T) {

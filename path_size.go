@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-// GetPathSize возвращает размер файла или директории в формате "<размер>\t<путь>"
+// GetPathSize возвращает размер файла или директории (только размер)
 func GetPathSize(path string, recursive, human, all bool) (string, error) {
 	info, err := os.Lstat(path)
 	if err != nil {
@@ -26,9 +26,7 @@ func GetPathSize(path string, recursive, human, all bool) (string, error) {
 		}
 	}
 
-	sizeStr := FormatSize(size, human)
-
-	return fmt.Sprintf("%s\t%s", sizeStr, path), nil
+	return FormatSize(size, human), nil
 }
 
 func getDirSizeFirstLevel(path string, all bool) int64 {
@@ -91,6 +89,7 @@ func isHidden(name string) bool {
 	return strings.HasPrefix(name, ".")
 }
 
+// FormatSize форматирует размер в человекочитаемый вид
 func FormatSize(size int64, human bool) string {
 	if !human {
 		return fmt.Sprintf("%dB", size)
