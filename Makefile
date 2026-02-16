@@ -12,7 +12,7 @@ run: build
 	./$(BIN_PATH)
 
 test:
-	go test -v ./...
+	go test -v ./tests/...
 
 clean:
 	rm -rf bin/
