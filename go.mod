@@ -1,4 +1,4 @@
-module hexlet-path-size
+module code
 
 go 1.25
 

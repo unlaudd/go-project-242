@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"hexlet-path-size/pkg"
+	"code/pkg"
 
 	"github.com/stretchr/testify/require"
 )
