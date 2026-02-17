@@ -12,32 +12,40 @@ func setupTestData(t *testing.T) string {
 	tmpDir := t.TempDir()
 
 	file1 := filepath.Join(tmpDir, "file1.txt")
-	os.WriteFile(file1, []byte("1234567890"), 0644) // 10 байт
+	err := os.WriteFile(file1, []byte("1234567890"), 0644)
+	require.NoError(t, err)
 
 	file2 := filepath.Join(tmpDir, "file2.txt")
-	os.WriteFile(file2, []byte("12345678901234567890"), 0644) // 20 байт
+	err = os.WriteFile(file2, []byte("12345678901234567890"), 0644)
+	require.NoError(t, err)
 
 	hiddenFile := filepath.Join(tmpDir, ".hidden")
-	os.WriteFile(hiddenFile, []byte("123456789012345678901234567890"), 0644) // 30 байт
+	err = os.WriteFile(hiddenFile, []byte("123456789012345678901234567890"), 0644)
+	require.NoError(t, err)
 
 	testdir := filepath.Join(tmpDir, "testdir")
-	os.Mkdir(testdir, 0755)
+	err = os.Mkdir(testdir, 0755)
+	require.NoError(t, err)
 
 	nested := filepath.Join(testdir, "nested.txt")
-	os.WriteFile(nested, []byte("12345"), 0644) // 5 байт
+	err = os.WriteFile(nested, []byte("12345"), 0644)
+	require.NoError(t, err)
 
 	hiddenInDir := filepath.Join(testdir, ".hidden_nested")
-	os.WriteFile(hiddenInDir, []byte("1234567890"), 0644) // 10 байт
+	err = os.WriteFile(hiddenInDir, []byte("1234567890"), 0644)
+	require.NoError(t, err)
 
 	nestedDir := filepath.Join(testdir, "nesteddir")
-	os.Mkdir(nestedDir, 0755)
+	err = os.Mkdir(nestedDir, 0755)
+	require.NoError(t, err)
 
 	deepFile := filepath.Join(nestedDir, "deep.txt")
-	os.WriteFile(deepFile, []byte("123456789012345678901234567890"), 0644) // 30 байт
+	err = os.WriteFile(deepFile, []byte("123456789012345678901234567890"), 0644)
+	require.NoError(t, err)
 
-	// Пустой файл
 	emptyFile := filepath.Join(tmpDir, "empty.txt")
-	os.WriteFile(emptyFile, []byte(""), 0644) // 0 байт
+	err = os.WriteFile(emptyFile, []byte(""), 0644)
+	require.NoError(t, err)
 
 	return tmpDir
 }
@@ -99,7 +107,6 @@ func TestGetPathSize_NotExist(t *testing.T) {
 	require.Empty(t, result)
 }
 
-// Тест на пустой файл
 func TestGetPathSize_EmptyFile(t *testing.T) {
 	tmpDir := setupTestData(t)
 	path := filepath.Join(tmpDir, "empty.txt")
@@ -109,11 +116,11 @@ func TestGetPathSize_EmptyFile(t *testing.T) {
 	require.Equal(t, "0B", result)
 }
 
-// Тест на пустую директорию
 func TestGetPathSize_EmptyDir(t *testing.T) {
 	tmpDir := setupTestData(t)
 	emptyDir := filepath.Join(tmpDir, "emptydir")
-	os.Mkdir(emptyDir, 0755)
+	err := os.Mkdir(emptyDir, 0755)
+	require.NoError(t, err)
 
 	result, err := GetPathSize(emptyDir, false, false, false)
 	require.NoError(t, err)
