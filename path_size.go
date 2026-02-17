@@ -26,7 +26,7 @@ func GetPathSize(path string, recursive, human, all bool) (string, error) {
 		}
 	}
 
-	return FormatSize(size, human), nil
+	return formatSize(size, human), nil
 }
 
 func getDirSizeFirstLevel(path string, all bool) int64 {
@@ -89,8 +89,7 @@ func isHidden(name string) bool {
 	return strings.HasPrefix(name, ".")
 }
 
-// FormatSize форматирует размер в человекочитаемый вид
-func FormatSize(size int64, human bool) string {
+func formatSize(size int64, human bool) string {
 	if !human {
 		return fmt.Sprintf("%dB", size)
 	}
